@@ -128,12 +128,6 @@ The extension works out-of-the-box but can be customized:
 - Consider breaking large schemas into smaller components
 - Clear extension cache by restarting VS Code
 
-## 📚 Resources
-
-- [Complete Usage Guide](./COMPLETE_USAGE_GUIDE.md) - Detailed feature documentation
-- [Schema Visualization Guide](./SCHEMA_VISUALIZATION_GUIDE.md) - Tree view and navigation
-- [Syntax Highlighting Test](./SYNTAX_HIGHLIGHTING_TEST.md) - Test highlighting features
-
 ## 🚀 Development
 
 ### Prerequisites
@@ -150,11 +144,3 @@ npm run compile
 Use the provided launch configurations:
 - **Run Extension**: Launch development instance
 - **Extension Tests**: Run test suite
-
-## 📝 License
-
-This extension is built for the Snowplow community to enhance the development experience with intelligent tooling and seamless integration.
-
----
-
-**Experience the future of Snowplow schema development with intelligent assistance, powerful analysis, and beautiful visualization.**
