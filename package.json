@@ -7,6 +7,10 @@
     "engines": {
         "vscode": "^1.89.0"
     },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jborlase-snowplow/snowplow-cli-vs-code.git"
+    },
     "categories": [
         "Other"
     ],
@@ -22,7 +26,10 @@
         "languages": [
             {
                 "id": "snowplow-yaml",
-                "aliases": ["Snowplow YAML", "snowplow-yaml"],
+                "aliases": [
+                    "Snowplow YAML",
+                    "snowplow-yaml"
+                ],
                 "configuration": "./language-configuration.json",
                 "filenamePatterns": [
                     "**/data-structures/**/*.{yaml,yml}",
@@ -40,15 +47,19 @@
             {
                 "scopeName": "source.json.snowplow",
                 "path": "./syntaxes/snowplow-json.tmLanguage.json",
-                "injectTo": ["source.json"],
+                "injectTo": [
+                    "source.json"
+                ],
                 "embeddedLanguages": {
                     "meta.embedded.block.snowplow": "json"
                 }
             },
             {
-                "scopeName": "source.yaml.snowplow-injection", 
+                "scopeName": "source.yaml.snowplow-injection",
                 "path": "./syntaxes/snowplow-yaml-injection.tmLanguage.json",
-                "injectTo": ["source.yaml"],
+                "injectTo": [
+                    "source.yaml"
+                ],
                 "embeddedLanguages": {
                     "meta.embedded.block.snowplow": "yaml"
                 }
@@ -57,28 +68,72 @@
         "semanticTokenScopes": [
             {
                 "scopes": {
-                    "support.type.property-name.snowplow.json": ["entity.name.tag.yaml"],
-                    "support.type.property-name.snowplow.yaml": ["entity.name.tag.yaml"],
-                    "support.type.property-name.snowplow-data.json": ["entity.name.function.json"],
-                    "support.type.property-name.snowplow-data.yaml": ["entity.name.function.yaml"],
-                    "support.type.property-name.snowplow-product.json": ["entity.name.type.json"],
-                    "support.type.property-name.snowplow-product.yaml": ["entity.name.type.yaml"],
-                    "support.type.property-name.snowplow-spec.json": ["entity.name.section.json"],
-                    "support.type.property-name.snowplow-spec.yaml": ["entity.name.section.yaml"],
-                    "support.type.property-name.snowplow-schema.json": ["support.type.builtin.json"],
-                    "support.type.property-name.snowplow-schema.yaml": ["support.type.builtin.yaml"],
-                    "constant.numeric.snowplow-version.json": ["constant.numeric"],
-                    "constant.numeric.snowplow-version.yaml": ["constant.numeric"],
-                    "storage.type.snowplow-resource.json": ["storage.type"],
-                    "storage.type.snowplow-resource.yaml": ["storage.type"],
-                    "storage.modifier.snowplow-schema-type.json": ["storage.modifier"],
-                    "storage.modifier.snowplow-schema-type.yaml": ["storage.modifier"],
-                    "storage.modifier.snowplow-format.json": ["storage.modifier"],
-                    "storage.modifier.snowplow-format.yaml": ["storage.modifier"],
-                    "string.regexp.snowplow-iglu-uri.json": ["string.regexp"],
-                    "string.regexp.snowplow-iglu-uri.yaml": ["string.regexp"],
-                    "support.type.builtin.snowplow-data-type.json": ["support.type.builtin"],
-                    "support.type.builtin.snowplow-data-type.yaml": ["support.type.builtin"]
+                    "support.type.property-name.snowplow.json": [
+                        "entity.name.tag.yaml"
+                    ],
+                    "support.type.property-name.snowplow.yaml": [
+                        "entity.name.tag.yaml"
+                    ],
+                    "support.type.property-name.snowplow-data.json": [
+                        "entity.name.function.json"
+                    ],
+                    "support.type.property-name.snowplow-data.yaml": [
+                        "entity.name.function.yaml"
+                    ],
+                    "support.type.property-name.snowplow-product.json": [
+                        "entity.name.type.json"
+                    ],
+                    "support.type.property-name.snowplow-product.yaml": [
+                        "entity.name.type.yaml"
+                    ],
+                    "support.type.property-name.snowplow-spec.json": [
+                        "entity.name.section.json"
+                    ],
+                    "support.type.property-name.snowplow-spec.yaml": [
+                        "entity.name.section.yaml"
+                    ],
+                    "support.type.property-name.snowplow-schema.json": [
+                        "support.type.builtin.json"
+                    ],
+                    "support.type.property-name.snowplow-schema.yaml": [
+                        "support.type.builtin.yaml"
+                    ],
+                    "constant.numeric.snowplow-version.json": [
+                        "constant.numeric"
+                    ],
+                    "constant.numeric.snowplow-version.yaml": [
+                        "constant.numeric"
+                    ],
+                    "storage.type.snowplow-resource.json": [
+                        "storage.type"
+                    ],
+                    "storage.type.snowplow-resource.yaml": [
+                        "storage.type"
+                    ],
+                    "storage.modifier.snowplow-schema-type.json": [
+                        "storage.modifier"
+                    ],
+                    "storage.modifier.snowplow-schema-type.yaml": [
+                        "storage.modifier"
+                    ],
+                    "storage.modifier.snowplow-format.json": [
+                        "storage.modifier"
+                    ],
+                    "storage.modifier.snowplow-format.yaml": [
+                        "storage.modifier"
+                    ],
+                    "string.regexp.snowplow-iglu-uri.json": [
+                        "string.regexp"
+                    ],
+                    "string.regexp.snowplow-iglu-uri.yaml": [
+                        "string.regexp"
+                    ],
+                    "support.type.builtin.snowplow-data-type.json": [
+                        "support.type.builtin"
+                    ],
+                    "support.type.builtin.snowplow-data-type.yaml": [
+                        "support.type.builtin"
+                    ]
                 }
             }
         ],
@@ -666,9 +721,9 @@
     "dependencies": {
         "js-yaml": "^4.1.0",
         "minimatch": "^3.0.4",
-        "vscode-languageclient": "^8.0.0",
-        "vscode-languageserver": "^8.0.0",
-        "vscode-languageserver-textdocument": "^1.0.0",
-        "vscode-uri": "^3.0.0"
+        "vscode-languageclient": "^8.1.0",
+        "vscode-languageserver": "^8.1.0",
+        "vscode-languageserver-textdocument": "^1.0.12",
+        "vscode-uri": "^3.1.0"
     }
 }
