@@ -128,6 +128,21 @@ The extension works out-of-the-box but can be customized:
 - Consider breaking large schemas into smaller components
 - Clear extension cache by restarting VS Code
 
+### Installation from VSIX File
+
+In the root directory is a `.vsix` file that can be used to install the extension:
+
+1. **Open VS Code**
+2. **Open the Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+3. **Type and select**: `Extensions: Install from VSIX...`
+4. **Navigate to and select** the `.vsix` file
+5. **Restart VS Code** when prompted
+
+Alternatively, you can install via the terminal:
+```bash
+code --install-extension snowplow-cli-vs-code.vsix
+```
+
 ## 🚀 Development
 
 ### Prerequisites
