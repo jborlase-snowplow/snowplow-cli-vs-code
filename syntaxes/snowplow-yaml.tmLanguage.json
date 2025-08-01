@@ -1,0 +1,183 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Snowplow YAML Injection",
+  "scopeName": "source.yaml.snowplow",
+  "injectionSelector": "L:source.yaml",
+  "patterns": [
+    {
+      "include": "#snowplow-keys"
+    },
+    {
+      "include": "#snowplow-values"
+    },
+    {
+      "include": "#snowplow-quoted-values"
+    }
+  ],
+  "repository": {
+    "snowplow-keys": {
+      "patterns": [
+        {
+          "match": "^(\\s*)(apiVersion|resourceType|resourceName)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow.yaml"
+            }
+          }
+        },
+        {
+          "match": "^(\\s*)(data|self|vendor|name|version|format|properties|meta|schemaType|hidden|required|additionalProperties|\\$schema|description)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-data.yaml"
+            }
+          }
+        },
+        {
+          "match": "^(\\s*)(eventSpecifications|sourceApplications|domain|owner|id|uuid|email|organization)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-product.yaml"
+            }
+          }
+        },
+        {
+          "match": "^(\\s*)(source|tracked|enriched|minCardinality|maxCardinality|triggers|entities|event|spec|urls|appIds|\\$ref)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-spec.yaml"
+            }
+          }
+        },
+        {
+          "match": "^(\\s*)(type|string|number|integer|boolean|array|object|null|enum|const|minimum|maximum|minLength|maxLength|pattern|items|anyOf|oneOf|allOf)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-schema.yaml"
+            }
+          }
+        }
+      ]
+    },
+    "snowplow-values": {
+      "patterns": [
+        {
+          "match": "(?<=:\\s+)(v1)(?=\\s*(?:#.*)?$)",
+          "name": "constant.numeric.snowplow-version.yaml"
+        },
+        {
+          "match": "(?<=:\\s+)(data-structure|data-product)(?=\\s*(?:#.*)?$)",
+          "name": "storage.type.snowplow-resource.yaml"
+        },
+        {
+          "match": "(?<=:\\s+)(event|entity)(?=\\s*(?:#.*)?$)",
+          "name": "storage.modifier.snowplow-schema-type.yaml"
+        },
+        {
+          "match": "(?<=:\\s+)(iglu:[a-zA-Z0-9\\-_.]+/[a-zA-Z0-9\\-_]+/[a-zA-Z0-9\\-_]+/[0-9]+-[0-9]+-[0-9]+)(?=\\s*(?:#.*)?$)",
+          "name": "string.regexp.snowplow-iglu-uri.yaml"
+        },
+        {
+          "match": "(?<=:\\s+)(string|number|integer|boolean|array|object|null)(?=\\s*(?:#.*)?$)",
+          "name": "support.type.builtin.snowplow-data-type.yaml"
+        },
+        {
+          "match": "(?<=:\\s+)(jsonschema)(?=\\s*(?:#.*)?$)",
+          "name": "storage.modifier.snowplow-format.yaml"
+        },
+        {
+          "match": "(?<=:\\s+)(true|false)(?=\\s*(?:#.*)?$)",
+          "name": "constant.language.boolean.yaml"
+        }
+      ]
+    },
+    "snowplow-quoted-values": {
+      "patterns": [
+        {
+          "match": "([\"|'])(v1)([\"'])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.yaml"
+            },
+            "2": {
+              "name": "constant.numeric.snowplow-version.yaml"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          }
+        },
+        {
+          "match": "([\"|'])(data-structure|data-product)([\"'])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.yaml"
+            },
+            "2": {
+              "name": "storage.type.snowplow-resource.yaml"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          }
+        },
+        {
+          "match": "([\"|'])(event|entity)([\"'])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.yaml"
+            },
+            "2": {
+              "name": "storage.modifier.snowplow-schema-type.yaml"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          }
+        },
+        {
+          "match": "([\"|'])(iglu:[a-zA-Z0-9\\-_.]+/[a-zA-Z0-9\\-_]+/[a-zA-Z0-9\\-_]+/[0-9]+-[0-9]+-[0-9]+)([\"'])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.yaml"
+            },
+            "2": {
+              "name": "string.regexp.snowplow-iglu-uri.yaml"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          }
+        },
+        {
+          "match": "([\"|'])(string|number|integer|boolean|array|object|null)([\"'])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.yaml"
+            },
+            "2": {
+              "name": "support.type.builtin.snowplow-data-type.yaml"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          }
+        },
+        {
+          "match": "([\"|'])(jsonschema)([\"'])",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.yaml"
+            },
+            "2": {
+              "name": "storage.modifier.snowplow-format.yaml"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.yaml"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

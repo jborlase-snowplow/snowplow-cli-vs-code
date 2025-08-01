@@ -1,0 +1,108 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Snowplow YAML Injection",
+  "scopeName": "source.yaml.snowplow-injection",
+  "injectionSelector": "L:source.yaml",
+  "patterns": [
+    {
+      "include": "#snowplow-detection"
+    }
+  ],
+  "repository": {
+    "snowplow-detection": {
+      "patterns": [
+        {
+          "begin": "(?=^\\s*apiVersion\\s*:\\s*v1)",
+          "end": "(?=\\Z)",
+          "patterns": [
+            {
+              "include": "#snowplow-content"
+            }
+          ]
+        },
+        {
+          "begin": "(?=^\\s*resourceType\\s*:\\s*(data-structure|data-product|source-app))",
+          "end": "(?=\\Z)",
+          "patterns": [
+            {
+              "include": "#snowplow-content"
+            }
+          ]
+        },
+        {
+          "begin": "(?=.*yaml-language-server.*snowplow)",
+          "end": "(?=\\Z)",
+          "patterns": [
+            {
+              "include": "#snowplow-content"
+            }
+          ]
+        }
+      ]
+    },
+    "snowplow-content": {
+      "patterns": [
+        {
+          "match": "^(\\s*)(apiVersion|resourceType|resourceName)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-root.yaml"
+            }
+          }
+        },
+        {
+          "match": "(\\s*)(data|self|vendor|name|version|format|properties|meta|schemaType|hidden|required|additionalProperties|\\$schema|description|type|customData|enum|minimum|maximum|minLength|maxLength|pattern|items|oneOf|anyOf|allOf|not|default|examples|const|readOnly|writeOnly|title|multipleOf|exclusiveMinimum|exclusiveMaximum|minItems|maxItems|uniqueItems|minProperties|maxProperties|dependencies|patternProperties|if|then|else|contains|propertyNames|contentMediaType|contentEncoding)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-data.yaml"
+            }
+          }
+        },
+        {
+          "match": "(\\s*)(eventSpecifications|sourceApplications|domain|owner|id|uuid|email|organization|event|entities|tracked|enriched|source|minCardinality|maxCardinality|triggers|spec|urls|appIds|\\$ref)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-product.yaml"
+            }
+          }
+        },
+        {
+          "match": "(\\s*)(source|tracked|enriched|minCardinality|maxCardinality|triggers|entities|event|spec|urls|appIds|\\$ref)(?=\\s*:)",
+          "captures": {
+            "2": {
+              "name": "support.type.property-name.snowplow-spec.yaml"
+            }
+          }
+        },
+        {
+          "match": "\\b(v1|data-structure|data-product|source-app)\\b",
+          "name": "constant.language.snowplow-resource.yaml"
+        },
+        {
+          "match": "\\b(event|entity)\\b",
+          "name": "constant.language.snowplow-type.yaml"
+        },
+        {
+          "match": "\\b(string|number|integer|boolean|array|object|null)\\b",
+          "name": "support.type.builtin.snowplow-data-type.yaml"
+        },
+        {
+          "match": "\\b(jsonschema)\\b",
+          "name": "storage.modifier.snowplow-format.yaml"
+        },
+        {
+          "match": "iglu:[^\\s]+",
+          "name": "string.other.link.snowplow-iglu-uri.yaml"
+        },
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.yaml"
+        },
+        {
+          "match": "\\b\\d+(?:\\.\\d+)?\\b",
+          "name": "constant.numeric.yaml"
+        }
+      ]
+    }
+  }
+}

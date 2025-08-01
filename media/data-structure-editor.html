@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema Designer</title>
+    <link rel="stylesheet" href="{{CSS_URI}}">
+</head>
+<body>
+    <div class="editor-container">
+        <!-- Header -->
+        <div class="editor-header">
+            <div class="header-left">
+                <h1 class="editor-title">Schema Designer</h1>
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item">{{DATA_VENDOR}}</span>
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-item active">{{DATA_NAME}}</span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <!-- Header actions removed -->
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="editor-main">
+            <!-- Left Panel - Form -->
+            <div class="left-panel">
+                <form id="dataStructureForm">
+                    <!-- Basic Info Section -->
+                    <div class="form-section">
+                        <div class="basic-info-grid">
+                            <div class="basic-field">
+                                <label>Vendor</label>
+                                <input type="text" id="vendor" name="vendor" value="{{DATA_VENDOR}}" class="compact-input" onchange="updatePreview()">
+                            </div>
+                            <div class="basic-field">
+                                <label>Version</label>
+                                <input type="text" id="version" name="version" value="{{DATA_VERSION}}" class="compact-input" onchange="updatePreview()">
+                            </div>
+                        </div>
+                        
+                        <div class="basic-field">
+                            <label>Schema Name</label>
+                            <div class="name-input-group">
+                                <input type="text" id="name" name="name" value="{{DATA_NAME}}" class="name-input" onchange="updatePreview()">
+                                <div class="schema-badges">
+                                    <span class="schema-badge event {{SCHEMA_TYPE_EVENT_ACTIVE}}" data-type="event">Event</span>
+                                    <span class="schema-badge entity {{SCHEMA_TYPE_ENTITY_ACTIVE}}" data-type="entity">Entity</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="basic-field">
+                            <label>Description</label>
+                            <textarea id="description" name="description" class="description-input" placeholder="Schema for an Acme Inc ad click event" onchange="updatePreview()">{{DATA_DESCRIPTION}}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Fields Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3>Fields</h3>
+                            <div class="section-actions">
+                                <button type="button" class="btn-icon" onclick="addProperty()" title="Add Field">
+                                    <span class="plus-icon">+</span> Add Field
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="fields-header">
+                            <div class="field-col-name">Name</div>
+                            <div class="field-col-type">Type</div>
+                            <div class="field-col-req">Req/Null</div>
+                            <div class="field-col-actions">Actions</div>
+                        </div>
+
+                        <div id="properties-container" class="fields-container">
+                            {{PROPERTIES_HTML}}
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Footer Actions -->
+                <div class="form-footer">
+                    <button type="button" class="btn btn-secondary" onclick="validateForm()">Validate Schema</button>
+                    <button type="button" class="btn btn-primary" onclick="saveDataStructure()">Save Schema</button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Live Preview -->
+            <div class="right-panel">
+                <div class="preview-header">
+                    <div class="preview-title">JSON Schema</div>
+                    <div class="preview-actions">
+                        <button class="btn-copy" onclick="copySchema()" title="Copy">📋 Copy</button>
+                    </div>
+                </div>
+                <div class="preview-tabs">
+                    <button class="preview-tab active" data-format="json">JSON</button>
+                    <button class="preview-tab" data-format="yaml">YAML</button>
+                </div>
+                <div class="preview-content">
+                    <pre id="schema-preview"><code id="schema-code">{{INITIAL_SCHEMA}}</code></pre>
+                </div>
+                <div class="validation-status" id="validation-status">
+                    <span class="status-icon">✅</span>
+                    <span class="status-text">Valid schema</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize property counter
+        let propertyCounter = {{PROPERTY_COUNTER}};
+        let currentFormat = 'json';
+        
+        // Property template for dynamic addition
+        const PROPERTY_TEMPLATE = {{PROPERTY_TEMPLATE}};
+    </script>
+    <script src="{{JS_URI}}"></script>
+</body>
+</html>

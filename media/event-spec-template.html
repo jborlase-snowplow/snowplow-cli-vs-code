@@ -1,0 +1,73 @@
+<div class="event-spec-card event-spec-item" id="event-spec-COUNTER">
+    <div class="card-header">
+        <div class="card-title">
+            <input type="text" name="eventSpecs[COUNTER][name]" value="EVENTSPEC_NAME" 
+                   placeholder="Event specification name" class="card-title-input" 
+                   onchange="updatePreview()" required>
+        </div>
+        <div class="card-actions">
+            <button type="button" class="btn-icon-small" onclick="duplicateEventSpec(COUNTER)" title="Duplicate">📋</button>
+            <button type="button" class="btn-icon-small btn-danger" onclick="removeEventSpec(COUNTER)" title="Remove">�</button>
+        </div>
+    </div>
+    
+    <div class="card-content">
+        <div class="form-row">
+            <div class="form-field">
+                <label>Description:</label>
+                <textarea name="eventSpecs[COUNTER][description]" placeholder="Brief description of this event" 
+                         onchange="updatePreview()" rows="2" class="form-textarea">EVENTSPEC_DESCRIPTION</textarea>
+            </div>
+        </div>
+        
+        <div class="form-row">
+            <div class="form-field">
+                <label>Event Data Structure:</label>
+                <div class="data-structure-selector">
+                    <input type="text" name="eventSpecs[COUNTER][eventSource]" value="EVENTSPEC_SOURCE" 
+                           placeholder="Select or create event data structure" class="structure-input" readonly
+                           onclick="selectEventDataStructure(COUNTER)">
+                    <button type="button" class="btn-select" onclick="selectEventDataStructure(COUNTER)">
+                        Select
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="entities-section">
+            <div class="entities-header">
+                <h4>Entity Data Structures</h4>
+                <div class="entities-subtitle">Additional context entities tracked with this event</div>
+            </div>
+            
+            <div class="entity-types">
+                <div class="entity-type-section">
+                    <div class="entity-type-header">
+                        <h5>Tracked Entities</h5>
+                        <div class="entity-type-subtitle">Entities sent with the event</div>
+                        <button type="button" class="btn-icon-small" 
+                                onclick="addEntity(COUNTER, 'tracked')" title="Add Tracked Entity">+</button>
+                    </div>
+                    <div class="entities-list" id="tracked-entities-COUNTER">
+                        TRACKED_ENTITIES_HTML
+                    </div>
+                </div>
+                
+                <div class="entity-type-section">
+                    <div class="entity-type-header">
+                        <h5>Enriched Entities</h5>
+                        <div class="entity-type-subtitle">Entities added during enrichment</div>
+                        <button type="button" class="btn-icon-small" 
+                                onclick="addEntity(COUNTER, 'enriched')" title="Add Enriched Entity">+</button>
+                    </div>
+                    <div class="entities-list" id="enriched-entities-COUNTER">
+                        ENRICHED_ENTITIES_HTML
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hidden UUID field -->
+    <input type="hidden" name="eventSpecs[COUNTER][resourceName]" value="EVENTSPEC_RESOURCE_NAME" id="eventspec-resourcename-COUNTER">
+</div>

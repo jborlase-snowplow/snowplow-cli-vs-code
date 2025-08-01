@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.snowplow.io/snowplow-data-structure/1-0-0.json",
+  "title": "Snowplow Data Structure",
+  "description": "Schema for Snowplow data structure files",
+  "type": "object",
+  "required": ["apiVersion", "resourceType", "meta", "data"],
+  "additionalProperties": false,
+  "properties": {
+    "apiVersion": {
+      "type": "string",
+      "enum": ["v1"],
+      "description": "The version of this data structure resource format"
+    },
+    "resourceType": {
+      "type": "string", 
+      "enum": ["data-structure"],
+      "description": "The type of resource being described"
+    },
+    "meta": {
+      "type": "object",
+      "required": ["hidden", "schemaType", "customData"],
+      "additionalProperties": false,
+      "properties": {
+        "hidden": {
+          "type": "boolean",
+          "description": "If true, this data structure will be hidden in the BDP Console"
+        },
+        "schemaType": {
+          "type": "string",
+          "enum": ["event", "entity"],
+          "description": "Indicates whether this schema defines an 'event' or an 'entity'"
+        },
+        "customData": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "An open object for storing arbitrary key-value pairs of custom metadata"
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "required": ["$schema", "self"],
+      "properties": {
+        "$schema": {
+          "type": "string",
+          "enum": ["http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#"],
+          "description": "The JSON Schema draft version"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of what this schema represents"
+        },
+        "self": {
+          "type": "object",
+          "required": ["vendor", "name", "format", "version"],
+          "additionalProperties": false,
+          "properties": {
+            "vendor": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9-_.]+$",
+              "description": "The vendor or organization responsible for the schema"
+            },
+            "name": {
+              "type": "string", 
+              "pattern": "^[a-zA-Z0-9-_]+$",
+              "description": "The name of the schema"
+            },
+            "format": {
+              "type": "string",
+              "enum": ["jsonschema"],
+              "description": "The format of the schema"
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^[1-9][0-9]*-[0-9]+-[0-9]+$",
+              "description": "The version of the schema in SchemaVer format"
+            }
+          }
+        },
+        "type": {
+          "type": "string",
+          "enum": ["object"],
+          "description": "The root type must be object"
+        },
+        "properties": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "http://json-schema.org/draft-04/schema#"
+          },
+          "description": "The properties of the schema"
+        },
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Array of required property names"
+        },
+        "additionalProperties": {
+          "type": "boolean",
+          "description": "Whether additional properties are allowed"
+        }
+      }
+    }
+  }
+}

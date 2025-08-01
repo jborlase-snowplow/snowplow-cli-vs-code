@@ -1,0 +1,114 @@
+<div class="field-row" id="property-COUNTER">
+    <div class="field-name">
+        <input type="text" name="properties[COUNTER][name]" value="PROP_NAME" class="field-name-input" placeholder="Property name" required onchange="updatePreview()">
+        <button type="button" class="field-warning" title="Validation warning" style="display: none;">⚠</button>
+    </div>
+    <div class="field-type">
+        <select name="properties[COUNTER][type]" class="field-type-select" onchange="updatePropertyConstraints(COUNTER, this.value)" required>
+            <option value="">Select...</option>
+            <option value="string" SELECTED_STRING>String</option>
+            <option value="number" SELECTED_NUMBER>Number</option>
+            <option value="integer" SELECTED_INTEGER>Integer</option>
+            <option value="boolean" SELECTED_BOOLEAN>Boolean</option>
+            <option value="array" SELECTED_ARRAY>Array</option>
+            <option value="object" SELECTED_OBJECT>Object</option>
+        </select>
+        <button type="button" class="field-type-dropdown">⌄</button>
+    </div>
+    <div class="field-req-null">
+        <label class="checkbox-compact">
+            <input type="checkbox" name="properties[COUNTER][required]" PROP_REQUIRED onchange="updatePreview()">
+            <span class="checkbox-label">Required</span>
+        </label>
+        <label class="checkbox-compact">
+            <input type="checkbox" name="properties[COUNTER][nullable]" PROP_NULLABLE onchange="updatePreview()">
+            <span class="checkbox-label">Nullable</span>
+        </label>
+    </div>
+    <div class="field-actions">
+        <button type="button" class="btn-icon-small" onclick="togglePropertyConstraints(COUNTER)" title="Advanced Settings">⚙️</button>
+        <button type="button" class="btn-icon-small" onclick="duplicateProperty(COUNTER)" title="Duplicate">📋</button>
+        <button type="button" class="btn-icon-small btn-danger" onclick="removeProperty(COUNTER)" title="Remove">🗑</button>
+    </div>
+    
+    <!-- Advanced constraints section (initially hidden) -->
+    <div class="field-constraints" id="constraints-COUNTER" style="display: none;">
+        <div class="constraints-content">
+            <div class="constraint-row">
+                <label>Description:</label>
+                <input type="text" name="properties[COUNTER][description]" value="PROP_DESCRIPTION" placeholder="Field description" onchange="updatePreview()">
+            </div>
+            
+            <!-- String constraints -->
+            <div class="string-constraints" style="display: none;">
+                <div class="constraint-row">
+                    <label>Min Length:</label>
+                    <input type="number" name="properties[COUNTER][minLength]" value="PROP_MIN_LENGTH" min="0" onchange="updatePreview()">
+                </div>
+                <div class="constraint-row">
+                    <label>Max Length:</label>
+                    <input type="number" name="properties[COUNTER][maxLength]" value="PROP_MAX_LENGTH" min="0" onchange="updatePreview()">
+                </div>
+                <div class="constraint-row">
+                    <label>Pattern (regex):</label>
+                    <input type="text" name="properties[COUNTER][pattern]" value="PROP_PATTERN" placeholder="^[a-zA-Z]+$" onchange="updatePreview()">
+                </div>
+                <div class="constraint-row">
+                    <label>Format:</label>
+                    <select name="properties[COUNTER][format]" onchange="updatePreview()">
+                        <option value="">None</option>
+                        <option value="email" SELECTED_FORMAT_EMAIL>Email</option>
+                        <option value="uri" SELECTED_FORMAT_URI>URI</option>
+                        <option value="date" SELECTED_FORMAT_DATE>Date</option>
+                        <option value="time" SELECTED_FORMAT_TIME>Time</option>
+                        <option value="date-time" SELECTED_FORMAT_DATETIME>Date-Time</option>
+                        <option value="uuid" SELECTED_FORMAT_UUID>UUID</option>
+                    </select>
+                </div>
+                <div class="constraint-row">
+                    <label>Enum Values (comma-separated):</label>
+                    <input type="text" name="properties[COUNTER][enumValues]" value="PROP_ENUM_VALUES" placeholder="value1, value2, value3" onchange="updatePreview()">
+                </div>
+            </div>
+            
+            <!-- Number/Integer constraints -->
+            <div class="number-constraints" style="display: none;">
+                <div class="constraint-row">
+                    <label>Minimum:</label>
+                    <input type="number" name="properties[COUNTER][minimum]" value="PROP_MINIMUM" step="any" onchange="updatePreview()">
+                </div>
+                <div class="constraint-row">
+                    <label>Maximum:</label>
+                    <input type="number" name="properties[COUNTER][maximum]" value="PROP_MAXIMUM" step="any" onchange="updatePreview()">
+                </div>
+                <div class="constraint-row">
+                    <label>Multiple Of:</label>
+                    <input type="number" name="properties[COUNTER][multipleOf]" value="PROP_MULTIPLE_OF" step="any" min="0" onchange="updatePreview()">
+                </div>
+            </div>
+            
+            <!-- Array constraints -->
+            <div class="array-constraints" style="display: none;">
+                <div class="constraint-row">
+                    <label>Item Type:</label>
+                    <select name="properties[COUNTER][itemType]" onchange="updatePreview()">
+                        <option value="">Any</option>
+                        <option value="string" SELECTED_ITEM_STRING>String</option>
+                        <option value="number" SELECTED_ITEM_NUMBER>Number</option>
+                        <option value="integer" SELECTED_ITEM_INTEGER>Integer</option>
+                        <option value="boolean" SELECTED_ITEM_BOOLEAN>Boolean</option>
+                        <option value="object" SELECTED_ITEM_OBJECT>Object</option>
+                    </select>
+                </div>
+                <div class="constraint-row">
+                    <label>Min Items:</label>
+                    <input type="number" name="properties[COUNTER][minItems]" value="PROP_MIN_ITEMS" min="0" onchange="updatePreview()">
+                </div>
+                <div class="constraint-row">
+                    <label>Max Items:</label>
+                    <input type="number" name="properties[COUNTER][maxItems]" value="PROP_MAX_ITEMS" min="0" onchange="updatePreview()">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

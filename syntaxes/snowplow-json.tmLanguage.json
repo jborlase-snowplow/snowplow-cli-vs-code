@@ -1,0 +1,224 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Snowplow JSON Injection",
+  "scopeName": "source.json.snowplow",
+  "injectionSelector": "L:source.json",
+  "patterns": [
+    {
+      "include": "#snowplow-root"
+    }
+  ],
+  "repository": {
+    "snowplow-root": {
+      "patterns": [
+        {
+          "begin": "\\{",
+          "end": "\\}",
+          "patterns": [
+            {
+              "include": "#snowplow-properties"
+            },
+            {
+              "include": "#snowplow-values"
+            },
+            {
+              "include": "source.json"
+            }
+          ]
+        }
+      ]
+    },
+    "snowplow-properties": {
+      "patterns": [
+        {
+          "match": "(\")(apiVersion|resourceType|resourceName)(\")(\\s*)(:|=)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "support.type.property-name.snowplow.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            },
+            "4": {
+              "name": "meta.separator.whitespace.json"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(data|self|vendor|name|version|format|properties|meta|schemaType|hidden|type|required|additionalProperties|\\$schema|description)(\")(\\s*)(:|=)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "support.type.property-name.snowplow-data.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            },
+            "4": {
+              "name": "meta.separator.whitespace.json"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(eventSpecifications|sourceApplications|domain|owner|description|id|uuid|email|organization)(\")(\\s*)(:|=)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "support.type.property-name.snowplow-product.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            },
+            "4": {
+              "name": "meta.separator.whitespace.json"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(source|tracked|enriched|minCardinality|maxCardinality|triggers|entities|event|spec|urls|appIds)(\")(\\s*)(:|=)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "support.type.property-name.snowplow-spec.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            },
+            "4": {
+              "name": "meta.separator.whitespace.json"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(string|number|integer|boolean|array|object|null|enum|const|minimum|maximum|minLength|maxLength|pattern|items|anyOf|oneOf|allOf)(\")(\\s*)(:|=)",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "support.type.property-name.snowplow-schema.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            },
+            "4": {
+              "name": "meta.separator.whitespace.json"
+            },
+            "5": {
+              "name": "punctuation.separator.key-value.json"
+            }
+          }
+        }
+      ]
+    },
+    "snowplow-values": {
+      "patterns": [
+        {
+          "match": "(\")(v1)(\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "constant.numeric.snowplow-version.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(data-structure|data-product)(\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "storage.type.snowplow-resource.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(event|entity)(\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "storage.modifier.snowplow-schema-type.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(iglu:[a-zA-Z0-9-_.]+/[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+/[0-9]+-[0-9]+-[0-9]+)(\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "string.regexp.snowplow-iglu-uri.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(string|number|integer|boolean|array|object|null)(\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "support.type.builtin.snowplow-data-type.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            }
+          }
+        },
+        {
+          "match": "(\")(jsonschema)(\")",
+          "captures": {
+            "1": {
+              "name": "punctuation.definition.string.begin.json"
+            },
+            "2": {
+              "name": "storage.modifier.snowplow-format.json"
+            },
+            "3": {
+              "name": "punctuation.definition.string.end.json"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

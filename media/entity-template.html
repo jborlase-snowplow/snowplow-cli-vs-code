@@ -1,0 +1,24 @@
+<div class="entity-item" id="entity-EVENTSPEC_COUNTER-ENTITY_TYPE-ENTITY_COUNTER" data-entity-type="ENTITY_TYPE">
+    <div class="entity-content">
+        <div class="data-structure-selector">
+            <input type="text" name="entities[EVENTSPEC_COUNTER][ENTITY_TYPE][ENTITY_COUNTER][source]" 
+                   value="ENTITY_SOURCE" placeholder="Select entity data structure" 
+                   class="structure-input" readonly
+                   onclick="selectEntityDataStructure(EVENTSPEC_COUNTER, 'ENTITY_TYPE', ENTITY_COUNTER)">
+            <button type="button" class="btn-select" onclick="selectEntityDataStructure(EVENTSPEC_COUNTER, 'ENTITY_TYPE', ENTITY_COUNTER)">
+                Select
+            </button>
+        </div>
+        <div class="cardinality-controls" ENTITY_CARDINALITY_STYLE>
+            <input type="number" name="entities[EVENTSPEC_COUNTER][ENTITY_TYPE][ENTITY_COUNTER][minCardinality]" 
+                   value="ENTITY_MIN_CARDINALITY" placeholder="Min" min="0" max="999" 
+                   class="cardinality-input" onchange="updatePreview()" title="Minimum cardinality">
+            <span class="cardinality-separator">-</span>
+            <input type="number" name="entities[EVENTSPEC_COUNTER][ENTITY_TYPE][ENTITY_COUNTER][maxCardinality]" 
+                   value="ENTITY_MAX_CARDINALITY" placeholder="Max" min="0" max="999" 
+                   class="cardinality-input" onchange="updatePreview()" title="Maximum cardinality">
+        </div>
+        <button type="button" class="btn-icon-small btn-danger" 
+                onclick="removeEntity(EVENTSPEC_COUNTER, 'ENTITY_TYPE', ENTITY_COUNTER)" title="Remove">🗑</button>
+    </div>
+</div>

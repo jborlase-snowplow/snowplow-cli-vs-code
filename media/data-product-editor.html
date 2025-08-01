@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Product Designer</title>
+    <link rel="stylesheet" href="{{CSS_URI}}">
+</head>
+<body>
+    <div class="editor-container">
+        <!-- Header -->
+        <div class="editor-header">
+            <div class="header-left">
+                <h1 class="editor-title">Data Product Designer</h1>
+                <div class="breadcrumb">
+                    <span class="breadcrumb-item">{{DATA_DOMAIN}}</span>
+                    <span class="breadcrumb-separator">></span>
+                    <span class="breadcrumb-item active">{{DATA_NAME}}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="editor-main">
+            <!-- Left Panel - Form -->
+            <div class="left-panel">
+                <form id="dataProductForm">
+                    <!-- Basic Info Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3>Basic Information</h3>
+                        </div>
+                        <div class="basic-info-grid">
+                            <div class="basic-field">
+                                <label>Product Name</label>
+                                <input type="text" id="name" name="name" value="{{DATA_NAME}}" class="name-input" placeholder="e.g., Web User Interactions" onchange="updatePreview()" required>
+                            </div>
+                            <div class="basic-field">
+                                <label>Domain</label>
+                                <input type="text" id="domain" name="domain" value="{{DATA_DOMAIN}}" class="compact-input" placeholder="e.g., Web Analytics" onchange="updatePreview()">
+                            </div>
+                            <div class="basic-field">
+                                <label>Owner</label>
+                                <input type="email" id="owner" name="owner" value="{{DATA_OWNER}}" class="compact-input" placeholder="owner@example.com" onchange="updatePreview()">
+                            </div>
+                        </div>
+                        
+                        <div class="basic-field">
+                            <label>Description</label>
+                            <textarea id="description" name="description" class="description-input" placeholder="Describe what this data product contains and how it's used..." onchange="updatePreview()">{{DATA_DESCRIPTION}}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Event Specifications Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3>Event Specifications</h3>
+                            <div class="section-subtitle">Define the events that this data product tracks</div>
+                            <div class="section-actions">
+                                <button type="button" class="btn-icon" onclick="addEventSpec()" title="Add Event Specification">
+                                    <span class="plus-icon">+</span> Add Event Spec
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="event-specs-container" id="event-specs-container">
+                            {{EVENT_SPECS_HTML}}
+                        </div>
+
+                        <div class="empty-state" id="event-specs-empty" style="{{EVENT_SPECS_EMPTY_STYLE}}">
+                            <div class="empty-state-content">
+                                <div class="empty-state-icon">📊</div>
+                                <div class="empty-state-title">No Event Specifications</div>
+                                <div class="empty-state-description">Add event specifications to define what events this data product tracks</div>
+                                <button type="button" class="btn btn-primary" onclick="addEventSpec()">Add First Event Spec</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Source Applications Section -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3>Source Applications</h3>
+                            <div class="section-subtitle">Applications that generate the events (optional)</div>
+                            <div class="section-actions">
+                                <button type="button" class="btn-icon" onclick="addSourceApp()" title="Add Source Application">
+                                    <span class="plus-icon">+</span> Add Source App
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="source-apps-container" id="source-apps-container">
+                            {{SOURCE_APPS_HTML}}
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Footer Actions -->
+                <div class="form-footer">
+                    <button type="button" class="btn btn-secondary" onclick="validateForm()">Validate Data Product</button>
+                    <button type="button" class="btn btn-primary" onclick="saveDataProduct()">Save Data Product</button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Live Preview (Hidden) -->
+            <div class="right-panel" style="display: none;">
+                <div class="preview-header">
+                    <div class="preview-title">YAML Preview</div>
+                    <div class="preview-actions">
+                        <button class="btn-copy" onclick="copyPreview()" title="Copy">📋 Copy</button>
+                    </div>
+                </div>
+                <div class="preview-content">
+                    <pre id="preview-container"><code id="preview-code">{{INITIAL_DATAPRODUCT}}</code></pre>
+                </div>
+                <div class="validation-status" id="validation-status">
+                    <span class="status-icon">✅</span>
+                    <span class="status-text">Ready to save</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden inputs for UUIDs -->
+    <input type="hidden" id="resourceName" name="resourceName" value="{{RESOURCE_NAME}}">
+
+    <!-- Modal for Data Structure Selection -->
+    <div class="modal-overlay" id="dataStructureModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Select Data Structure</h3>
+                <button class="modal-close" onclick="closeDataStructureModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-tabs">
+                    <button class="modal-tab active" data-tab="existing" onclick="switchModalTab('existing')">Select Existing</button>
+                    <button class="modal-tab" data-tab="new" onclick="switchModalTab('new')">Create New</button>
+                </div>
+                
+                <div class="modal-tab-content" id="existingTab">
+                    <div class="search-box">
+                        <input type="text" id="structureSearch" placeholder="Search data structures..." oninput="filterDataStructures()">
+                    </div>
+                    <div class="structure-list" id="structureList">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+                
+                <div class="modal-tab-content" id="newTab" style="display: none;">
+                    <div class="new-structure-form">
+                        <div class="form-field">
+                            <label>Name:</label>
+                            <input type="text" id="newStructureName" placeholder="e.g., user_click">
+                        </div>
+                        <div class="form-field">
+                            <label>Vendor:</label>
+                            <input type="text" id="newStructureVendor" placeholder="e.g., com.mycompany" value="{{DEFAULT_VENDOR}}">
+                        </div>
+                        <div class="form-field">
+                            <label>Type:</label>
+                            <select id="newStructureType">
+                                <option value="event">Event</option>
+                                <option value="entity">Entity</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label>Description:</label>
+                            <input type="text" id="newStructureDescription" placeholder="Brief description">
+                        </div>
+                        
+                        <div class="properties-section">
+                            <div class="properties-header">
+                                <label>Properties:</label>
+                                <button type="button" class="btn-icon-small" onclick="addProperty()" title="Add Property">+</button>
+                            </div>
+                            <div class="properties-list" id="propertiesList">
+                                <!-- Properties will be added dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDataStructureModal()">Cancel</button>
+                <button class="btn btn-primary" id="modalActionBtn" onclick="selectDataStructure()">Select</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize counters and templates
+        let sourceAppCounter = {{SOURCE_APP_COUNTER}};
+        let eventSpecCounter = {{EVENT_SPEC_COUNTER}};
+        let entityCounter = {{ENTITY_COUNTER}};
+        
+        // Templates for dynamic content
+        const SOURCE_APP_TEMPLATE = {{SOURCE_APP_TEMPLATE}};
+        const EVENT_SPEC_TEMPLATE = {{EVENT_SPEC_TEMPLATE}};
+        const ENTITY_TEMPLATE = {{ENTITY_TEMPLATE}};
+        
+        // Modal state
+        let currentModalTarget = null;
+        let availableDataStructures = [];
+        
+        // Default vendor from workspace
+        const DEFAULT_VENDOR = "{{DEFAULT_VENDOR}}";
+    </script>
+    <script src="{{JS_URI}}"></script>
+</body>
+</html>
+
+            <!-- Right Panel - Live Preview -->
+            <div class="right-panel">
+                <div class="preview-header">
+                    <div class="preview-title">Data Product YAML</div>
+                    <div class="preview-actions">
+                        <button class="btn-copy" onclick="copyDataProduct()" title="Copy">📋 Copy</button>
+                    </div>
+                </div>
+                <div class="preview-tabs">
+                    <button class="preview-tab active" data-format="yaml">YAML</button>
+                    <button class="preview-tab" data-format="json">JSON</button>
+                </div>
+                <div class="preview-content">
+                    <pre id="dataproduct-preview"><code id="dataproduct-code">{{INITIAL_DATAPRODUCT}}</code></pre>
+                </div>
+                <div class="validation-status" id="validation-status">
+                    <span class="status-icon">✅</span>
+                    <span class="status-text">Valid data product</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize counters
+        let sourceAppCounter = {{SOURCE_APP_COUNTER}};
+        let eventSpecCounter = {{EVENT_SPEC_COUNTER}};
+        let entityCounter = {{ENTITY_COUNTER}};
+        let currentFormat = 'yaml';
+        
+        // Templates for dynamic addition
+        const SOURCE_APP_TEMPLATE = {{SOURCE_APP_TEMPLATE}};
+        const EVENT_SPEC_TEMPLATE = {{EVENT_SPEC_TEMPLATE}};
+        const ENTITY_TEMPLATE = {{ENTITY_TEMPLATE}};
+    </script>
+    <script src="{{JS_URI}}"></script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Snowplow YAML",
+  "scopeName": "source.yaml.snowplow",
+  "patterns": [
+    {
+      "include": "#snowplow-specific"
+    },
+    {
+      "include": "source.yaml"
+    }
+  ],
+  "repository": {
+    "snowplow-specific": {
+      "patterns": [
+        {
+          "include": "#snowplow-root-keys"
+        },
+        {
+          "include": "#snowplow-data-keys"
+        },
+        {
+          "include": "#snowplow-product-keys"
+        },
+        {
+          "include": "#snowplow-spec-keys"
+        },
+        {
+          "include": "#snowplow-values"
+        }
+      ]
+    },
+    "snowplow-root-keys": {
+      "match": "^(\\s*)(apiVersion|resourceType|resourceName)(?=\\s*:)",
+      "captures": {
+        "2": {
+          "name": "keyword.control.snowplow-root.yaml"
+        }
+      }
+    },
+    "snowplow-data-keys": {
+      "match": "(\\s*)(data|self|vendor|name|version|format|properties|meta|schemaType|hidden|required|additionalProperties|\\$schema|description|type|customData|enum|minimum|maximum|minLength|maxLength|pattern|items|oneOf|anyOf|allOf|not|default|examples|const|readOnly|writeOnly|title|multipleOf|exclusiveMinimum|exclusiveMaximum|minItems|maxItems|uniqueItems|minProperties|maxProperties|dependencies|patternProperties|if|then|else|contains|propertyNames|contentMediaType|contentEncoding)(?=\\s*:)",
+      "captures": {
+        "2": {
+          "name": "entity.name.tag.yaml"
+        }
+      }
+    },
+    "snowplow-product-keys": {
+      "match": "(\\s*)(eventSpecifications|sourceApplications|domain|owner|id|uuid|email|organization|event|entities|tracked|enriched|source|minCardinality|maxCardinality|triggers|spec|urls|appIds|\\$ref)(?=\\s*:)",
+      "captures": {
+        "2": {
+          "name": "variable.other.property.yaml"
+        }
+      }
+    },
+    "snowplow-spec-keys": {
+      "match": "(\\s*)(source|tracked|enriched|minCardinality|maxCardinality|triggers|entities|event|spec|urls|appIds|\\$ref)(?=\\s*:)",
+      "captures": {
+        "2": {
+          "name": "support.type.property-name.yaml"
+        }
+      }
+    },
+    "snowplow-values": {
+      "patterns": [
+        {
+          "match": "\\b(v1|data-structure|data-product|source-app)\\b",
+          "name": "constant.language.snowplow-resource.yaml"
+        },
+        {
+          "match": "\\b(event|entity)\\b",
+          "name": "constant.language.snowplow-type.yaml"
+        },
+        {
+          "match": "\\b(string|number|integer|boolean|array|object|null)\\b",
+          "name": "storage.type.yaml"
+        },
+        {
+          "match": "\\b(jsonschema)\\b",
+          "name": "storage.modifier.snowplow-format.yaml"
+        },
+        {
+          "match": "iglu:[^\\s]+",
+          "name": "string.other.link.snowplow-iglu-uri.yaml"
+        },
+        {
+          "match": "\\b(true|false)\\b",
+          "name": "constant.language.boolean.yaml"
+        },
+        {
+          "match": "\\b\\d+(?:\\.\\d+)?\\b",
+          "name": "constant.numeric.yaml"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,190 @@
+{
+  "name": "Snowplow Syntax Highlighting",
+  "type": "dark",
+  "colors": {},
+  "tokenColors": [
+    {
+      "scope": [
+        "support.type.property-name.snowplow-root.json",
+        "support.type.property-name.snowplow-root.yaml",
+        "support.type.property-name.snowplow.json",
+        "support.type.property-name.snowplow.yaml",
+        "entity.name.tag.snowplow-core.yaml",
+        "keyword.control.snowplow-root.yaml"
+      ],
+      "settings": {
+        "foreground": "#C792EA",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": [
+        "support.type.property-name.snowplow-data.json",
+        "support.type.property-name.snowplow-data.yaml",
+        "entity.name.tag.snowplow-data.yaml",
+        "entity.name.tag.yaml"
+      ],
+      "settings": {
+        "foreground": "#82AAFF",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": [
+        "support.type.property-name.snowplow-product.json",
+        "support.type.property-name.snowplow-product.yaml",
+        "entity.name.tag.snowplow-product.yaml",
+        "variable.other.property.yaml"
+      ],
+      "settings": {
+        "foreground": "#F78C6C",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": [
+        "support.type.property-name.snowplow-spec.json",
+        "support.type.property-name.snowplow-spec.yaml",
+        "entity.name.tag.snowplow-spec.yaml",
+        "support.type.property-name.yaml"
+      ],
+      "settings": {
+        "foreground": "#FFCB6B",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": [
+        "support.type.property-name.snowplow-schema.json",
+        "support.type.property-name.snowplow-schema.yaml",
+        "entity.name.tag.snowplow-schema-properties.yaml"
+      ],
+      "settings": {
+        "foreground": "#89DDFF",
+        "fontStyle": "normal"
+      }
+    },
+    {
+      "scope": [
+        "constant.numeric.snowplow-version.json",
+        "constant.numeric.snowplow-version.yaml",
+        "string.quoted.double.snowplow-version.json",
+        "string.unquoted.snowplow-version.yaml"
+      ],
+      "settings": {
+        "foreground": "#F78C6C",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": [
+        "storage.type.snowplow-resource.json",
+        "storage.type.snowplow-resource.yaml",
+        "string.quoted.double.snowplow-resource.json",
+        "string.unquoted.snowplow-resource.yaml"
+      ],
+      "settings": {
+        "foreground": "#C3E88D",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": [
+        "storage.modifier.snowplow-schema-type.json",
+        "storage.modifier.snowplow-schema-type.yaml",
+        "storage.modifier.snowplow-format.json",
+        "storage.modifier.snowplow-format.yaml",
+        "string.quoted.double.snowplow-schema-type.json",
+        "string.unquoted.snowplow-schema-type.yaml"
+      ],
+      "settings": {
+        "foreground": "#FFCB6B",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": [
+        "string.regexp.snowplow-iglu-uri.json",
+        "string.regexp.snowplow-iglu-uri.yaml",
+        "string.quoted.double.snowplow-iglu-uri.json",
+        "string.unquoted.snowplow-iglu-uri.yaml"
+      ],
+      "settings": {
+        "foreground": "#FF5370",
+        "fontStyle": "underline"
+      }
+    },
+    {
+      "scope": [
+        "support.type.builtin.snowplow-data-type.json",
+        "support.type.builtin.snowplow-data-type.yaml",
+        "string.quoted.double.snowplow-data-type.json",
+        "string.unquoted.snowplow-data-type.yaml",
+        "storage.type.yaml"
+      ],
+      "settings": {
+        "foreground": "#BB80B3",
+        "fontStyle": "normal"
+      }
+    },
+    {
+      "scope": [
+        "constant.language.boolean.yaml",
+        "constant.language.boolean.json"
+      ],
+      "settings": {
+        "foreground": "#FF8A80",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": [
+        "constant.language.snowplow-resource.yaml",
+        "constant.language.snowplow-resource.json"
+      ],
+      "settings": {
+        "foreground": "#89DDFF",
+        "fontStyle": "bold"
+      }
+    },
+    {
+      "scope": [
+        "constant.language.snowplow-type.yaml",
+        "constant.language.snowplow-type.json"
+      ],
+      "settings": {
+        "foreground": "#C3E88D",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": [
+        "support.type.builtin.snowplow-data-type.yaml",
+        "support.type.builtin.snowplow-data-type.json"
+      ],
+      "settings": {
+        "foreground": "#FFCB6B"
+      }
+    },
+    {
+      "scope": [
+        "storage.modifier.snowplow-format.yaml",
+        "storage.modifier.snowplow-format.json"
+      ],
+      "settings": {
+        "foreground": "#F78C6C",
+        "fontStyle": "italic"
+      }
+    },
+    {
+      "scope": [
+        "string.other.link.snowplow-iglu-uri.yaml",
+        "string.other.link.snowplow-iglu-uri.json"
+      ],
+      "settings": {
+        "foreground": "#82B1FF",
+        "fontStyle": "underline"
+      }
+    }
+  ]
+}

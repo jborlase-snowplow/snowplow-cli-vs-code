@@ -1,0 +1,674 @@
+{
+    "name": "snowplow-vscode-extension",
+    "displayName": "Snowplow",
+    "description": "A VS Code extension for the Snowplow CLI",
+    "version": "0.0.1",
+    "publisher": "snowplow",
+    "engines": {
+        "vscode": "^1.89.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "onLanguage:yaml",
+        "onLanguage:json",
+        "workspaceContains:**/data-products/**",
+        "workspaceContains:**/data-structures/**",
+        "onFileSystem:file"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "languages": [
+            {
+                "id": "snowplow-yaml",
+                "aliases": ["Snowplow YAML", "snowplow-yaml"],
+                "configuration": "./language-configuration.json",
+                "filenamePatterns": [
+                    "**/data-structures/**/*.{yaml,yml}",
+                    "**/data-products/**/*.{yaml,yml}",
+                    "**/source-apps/**/*.{yaml,yml}"
+                ]
+            }
+        ],
+        "grammars": [
+            {
+                "language": "snowplow-yaml",
+                "scopeName": "source.yaml.snowplow",
+                "path": "./syntaxes/snowplow-yaml-standalone.tmLanguage.json"
+            },
+            {
+                "scopeName": "source.json.snowplow",
+                "path": "./syntaxes/snowplow-json.tmLanguage.json",
+                "injectTo": ["source.json"],
+                "embeddedLanguages": {
+                    "meta.embedded.block.snowplow": "json"
+                }
+            },
+            {
+                "scopeName": "source.yaml.snowplow-injection", 
+                "path": "./syntaxes/snowplow-yaml-injection.tmLanguage.json",
+                "injectTo": ["source.yaml"],
+                "embeddedLanguages": {
+                    "meta.embedded.block.snowplow": "yaml"
+                }
+            }
+        ],
+        "semanticTokenScopes": [
+            {
+                "scopes": {
+                    "support.type.property-name.snowplow.json": ["entity.name.tag.yaml"],
+                    "support.type.property-name.snowplow.yaml": ["entity.name.tag.yaml"],
+                    "support.type.property-name.snowplow-data.json": ["entity.name.function.json"],
+                    "support.type.property-name.snowplow-data.yaml": ["entity.name.function.yaml"],
+                    "support.type.property-name.snowplow-product.json": ["entity.name.type.json"],
+                    "support.type.property-name.snowplow-product.yaml": ["entity.name.type.yaml"],
+                    "support.type.property-name.snowplow-spec.json": ["entity.name.section.json"],
+                    "support.type.property-name.snowplow-spec.yaml": ["entity.name.section.yaml"],
+                    "support.type.property-name.snowplow-schema.json": ["support.type.builtin.json"],
+                    "support.type.property-name.snowplow-schema.yaml": ["support.type.builtin.yaml"],
+                    "constant.numeric.snowplow-version.json": ["constant.numeric"],
+                    "constant.numeric.snowplow-version.yaml": ["constant.numeric"],
+                    "storage.type.snowplow-resource.json": ["storage.type"],
+                    "storage.type.snowplow-resource.yaml": ["storage.type"],
+                    "storage.modifier.snowplow-schema-type.json": ["storage.modifier"],
+                    "storage.modifier.snowplow-schema-type.yaml": ["storage.modifier"],
+                    "storage.modifier.snowplow-format.json": ["storage.modifier"],
+                    "storage.modifier.snowplow-format.yaml": ["storage.modifier"],
+                    "string.regexp.snowplow-iglu-uri.json": ["string.regexp"],
+                    "string.regexp.snowplow-iglu-uri.yaml": ["string.regexp"],
+                    "support.type.builtin.snowplow-data-type.json": ["support.type.builtin"],
+                    "support.type.builtin.snowplow-data-type.yaml": ["support.type.builtin"]
+                }
+            }
+        ],
+        "themes": [
+            {
+                "label": "Snowplow Syntax Highlighting",
+                "uiTheme": "vs-dark",
+                "path": "./themes/snowplow-syntax.json"
+            }
+        ],
+        "jsonValidation": [
+            {
+                "fileMatch": "**/data-structures/**/*.json",
+                "url": "./schemas/snowplow-data-structure-schema.json"
+            },
+            {
+                "fileMatch": "**/data-products/**/*.json",
+                "url": "./schemas/snowplow-data-product-schema.json"
+            }
+        ],
+        "yamlValidation": [
+            {
+                "fileMatch": "**/data-structures/**/*.{yaml,yml}",
+                "url": "./schemas/snowplow-data-structure-schema.json"
+            },
+            {
+                "fileMatch": "**/data-products/**/*.{yaml,yml}",
+                "url": "./schemas/snowplow-data-product-schema.json"
+            }
+        ],
+        "commands": [
+            {
+                "command": "snowplow.setup",
+                "title": "Snowplow: Setup Credentials"
+            },
+            {
+                "command": "snowplow.clearCredentials",
+                "title": "Snowplow: Clear Stored Credentials"
+            },
+            {
+                "command": "snowplow.validateFile",
+                "title": "Snowplow: Validate File"
+            },
+            {
+                "command": "snowplow.validateCurrentFile",
+                "title": "Snowplow: Validate Current File"
+            },
+            {
+                "command": "snowplow.validateDataProduct",
+                "title": "Snowplow: Validate Data Product"
+            },
+            {
+                "command": "snowplow.validateDataStructure",
+                "title": "Snowplow: Validate Data Structure"
+            },
+            {
+                "command": "snowplow.publishFile",
+                "title": "Snowplow: Publish File"
+            },
+            {
+                "command": "snowplow.publishCurrentFile",
+                "title": "Snowplow: Publish Current File"
+            },
+            {
+                "command": "snowplow.generateDataProduct",
+                "title": "Snowplow: Generate a new Data Product"
+            },
+            {
+                "command": "snowplow.generateDataStructure",
+                "title": "Snowplow: Generate a new Data Structure"
+            },
+            {
+                "command": "snowplow.downloadAllDataProducts",
+                "title": "Snowplow: Download All Data Products"
+            },
+            {
+                "command": "snowplow.publishAllDataProducts",
+                "title": "Snowplow: Publish All Data Products"
+            },
+            {
+                "command": "snowplow.validateAllDataProducts",
+                "title": "Snowplow: Validate All Data Products"
+            },
+            {
+                "command": "snowplow.downloadAllDataStructures",
+                "title": "Snowplow: Download All Data Structures"
+            },
+            {
+                "command": "snowplow.publishAllDataStructuresToDev",
+                "title": "Snowplow: Publish All Data Structures to Dev"
+            },
+            {
+                "command": "snowplow.publishAllDataStructuresToProd",
+                "title": "Snowplow: Publish All Data Structures to Prod"
+            },
+            {
+                "command": "snowplow.validateAllDataStructures",
+                "title": "Snowplow: Validate All Data Structures"
+            },
+            {
+                "command": "snowplow.addEventSpec",
+                "title": "Snowplow: Add Event Spec"
+            },
+            {
+                "command": "snowplow.refresh",
+                "title": "Snowplow: Refresh",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "snowplow.debugFileContext",
+                "title": "Snowplow: Debug File Context"
+            },
+            {
+                "command": "snowplow.openContainingFolder",
+                "title": "Snowplow: Open Containing Folder",
+                "icon": "$(folder-opened)"
+            },
+            {
+                "command": "snowplow.copyFilePath",
+                "title": "Snowplow: Copy File Path",
+                "icon": "$(copy)"
+            },
+            {
+                "command": "snowplow.publishDataStructureToProd",
+                "title": "Snowplow: Publish Data Structure to Production"
+            },
+            {
+                "command": "snowplow.validateWithProgress",
+                "title": "Snowplow: Validate with Progress"
+            },
+            {
+                "command": "snowplow.createSnowplowWorkspace",
+                "title": "Snowplow: Create Workspace"
+            },
+            {
+                "command": "snowplow.createVendorDirectory",
+                "title": "Snowplow: Create Vendor Directory"
+            },
+            {
+                "command": "snowplow.editDataStructure",
+                "title": "Snowplow: Edit Data Structure with Form",
+                "icon": "$(edit)"
+            },
+            {
+                "command": "snowplow.generateSourceApp",
+                "title": "Snowplow: Generate a new Source Application"
+            },
+            {
+                "command": "snowplow.validateSourceApp",
+                "title": "Snowplow: Validate Source Application (as Data Product)"
+            },
+            {
+                "command": "snowplow.publishSourceApp",
+                "title": "Snowplow: Publish Source Application (as Data Product)"
+            },
+            {
+                "command": "snowplow.downloadAllSourceApps",
+                "title": "Snowplow: Download All Source Applications (via Data Products)"
+            },
+            {
+                "command": "snowplow.publishAllSourceApps",
+                "title": "Snowplow: Publish All Source Applications (via Data Products)"
+            },
+            {
+                "command": "snowplow.validateAllSourceApps",
+                "title": "Snowplow: Validate All Source Applications (via Data Products)"
+            },
+            {
+                "command": "snowplow.editDataStructure",
+                "title": "Snowplow: Edit Data Structure with Form",
+                "icon": "$(edit)"
+            },
+            {
+                "command": "snowplow.refreshSchemaVisualization",
+                "title": "Snowplow: Refresh Schema Visualization",
+                "icon": "$(refresh)"
+            },
+            {
+                "command": "snowplow.visualizeCurrentSchema",
+                "title": "Snowplow: Visualize Current Schema",
+                "icon": "$(type-hierarchy)"
+            },
+            {
+                "command": "snowplow.navigateToProperty",
+                "title": "Snowplow: Navigate to Property"
+            },
+            {
+                "command": "snowplow.analyzeSchema",
+                "title": "Snowplow: Analyze Schema",
+                "icon": "$(graph)"
+            },
+            {
+                "command": "snowplow.convertFormat",
+                "title": "Snowplow: Convert JSON/YAML Format",
+                "icon": "$(symbol-file)"
+            },
+            {
+                "command": "snowplow.generateTestData",
+                "title": "Snowplow: Generate Test Data",
+                "icon": "$(beaker)"
+            },
+            {
+                "command": "snowplow.showSchemaDependencies",
+                "title": "Snowplow: Show Schema Dependencies",
+                "icon": "$(references)"
+            },
+            {
+                "command": "snowplow.optimizeSchema",
+                "title": "Snowplow: Optimize Schema",
+                "icon": "$(zap)"
+            },
+            {
+                "command": "snowplow.editDataProduct",
+                "title": "Snowplow: Edit Data Product with Form",
+                "icon": "$(package)"
+            },
+            {
+                "command": "snowplow.detectLanguage",
+                "title": "Snowplow: Detect Language Mode"
+            },
+            {
+                "command": "snowplow.testLanguageFeatures",
+                "title": "Snowplow: Test Language Features (Debug)"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "snowplow.validateCurrentFile",
+                "key": "ctrl+shift+v",
+                "mac": "cmd+shift+v",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "snowplow.publishCurrentFile",
+                "key": "ctrl+alt+p",
+                "mac": "cmd+alt+p",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "snowplow.validateWithProgress",
+                "key": "ctrl+alt+v",
+                "mac": "cmd+alt+v",
+                "when": "editorTextFocus"
+            },
+            {
+                "command": "snowplow.refresh",
+                "key": "ctrl+shift+r",
+                "mac": "cmd+shift+r",
+                "when": "view == snowplowAssets"
+            },
+            {
+                "command": "snowplow.visualizeCurrentSchema",
+                "key": "ctrl+shift+s",
+                "mac": "cmd+shift+s",
+                "when": "editorTextFocus && (resourceExtname == .json || resourceExtname == .yaml || resourceExtname == .yml)"
+            }
+        ],
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "snowplow-explorer",
+                    "title": "Snowplow",
+                    "icon": "media/snowplow-icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "snowplow-explorer": [
+                {
+                    "id": "snowplowAssets",
+                    "name": "Snowplow Assets",
+                    "icon": "$(database)"
+                },
+                {
+                    "id": "snowplowSchemaVisualization",
+                    "name": "Schema Visualization",
+                    "icon": "$(type-hierarchy)"
+                }
+            ]
+        },
+        "menus": {
+            "view/title": [
+                {
+                    "command": "snowplow.refresh",
+                    "when": "view == snowplowAssets",
+                    "group": "navigation"
+                },
+                {
+                    "command": "snowplow.generateDataProduct",
+                    "when": "view == snowplowAssets",
+                    "group": "1_generate@1"
+                },
+                {
+                    "command": "snowplow.generateDataStructure",
+                    "when": "view == snowplowAssets",
+                    "group": "1_generate@2"
+                },
+                {
+                    "command": "snowplow.generateSourceApp",
+                    "when": "view == snowplowAssets",
+                    "group": "1_generate@3"
+                },
+                {
+                    "command": "snowplow.downloadAllDataProducts",
+                    "when": "view == snowplowAssets",
+                    "group": "2_bulk@1"
+                },
+                {
+                    "command": "snowplow.downloadAllDataStructures",
+                    "when": "view == snowplowAssets",
+                    "group": "2_bulk@2"
+                },
+                {
+                    "command": "snowplow.downloadAllSourceApps",
+                    "when": "view == snowplowAssets",
+                    "group": "2_bulk@3"
+                },
+                {
+                    "command": "snowplow.validateAllDataProducts",
+                    "when": "view == snowplowAssets",
+                    "group": "2_bulk@4"
+                },
+                {
+                    "command": "snowplow.validateAllDataStructures",
+                    "when": "view == snowplowAssets",
+                    "group": "2_bulk@5"
+                },
+                {
+                    "command": "snowplow.validateAllSourceApps",
+                    "when": "view == snowplowAssets",
+                    "group": "2_bulk@6"
+                },
+                {
+                    "command": "snowplow.createSnowplowWorkspace",
+                    "when": "view == snowplowAssets",
+                    "group": "3_setup@1"
+                },
+                {
+                    "command": "snowplow.createVendorDirectory",
+                    "when": "view == snowplowAssets",
+                    "group": "3_setup@2"
+                },
+                {
+                    "command": "snowplow.refreshSchemaVisualization",
+                    "when": "view == snowplowSchemaVisualization",
+                    "group": "navigation"
+                },
+                {
+                    "command": "snowplow.visualizeCurrentSchema",
+                    "when": "view == snowplowSchemaVisualization",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "snowplow.validateFile",
+                    "when": "view == snowplowAssets && viewItem == dataProduct",
+                    "group": "1_actions@1"
+                },
+                {
+                    "command": "snowplow.publishFile",
+                    "when": "view == snowplowAssets && viewItem == dataProduct",
+                    "group": "1_actions@2"
+                },
+                {
+                    "command": "snowplow.editDataProduct",
+                    "when": "view == snowplowAssets && viewItem == dataProduct",
+                    "group": "1_actions@3"
+                },
+                {
+                    "command": "snowplow.addEventSpec",
+                    "when": "view == snowplowAssets && viewItem == dataProduct",
+                    "group": "1_actions@4"
+                },
+                {
+                    "command": "snowplow.validateFile",
+                    "when": "view == snowplowAssets && (viewItem == eventSpec || viewItem == eventSchema || viewItem == trackedEntity || viewItem == enrichedEntity)",
+                    "group": "1_actions@1"
+                },
+                {
+                    "command": "snowplow.validateFile",
+                    "when": "view == snowplowAssets && viewItem == dataStructure",
+                    "group": "1_actions@1"
+                },
+                {
+                    "command": "snowplow.publishFile",
+                    "when": "view == snowplowAssets && viewItem == dataStructure",
+                    "group": "1_actions@2"
+                },
+                {
+                    "command": "snowplow.editDataStructure",
+                    "when": "view == snowplowAssets && viewItem == dataStructure",
+                    "group": "1_actions@3"
+                },
+                {
+                    "command": "snowplow.validateDataProduct",
+                    "when": "view == snowplowAssets && viewItem == dataProduct",
+                    "group": "2_specific@1"
+                },
+                {
+                    "command": "snowplow.validateDataStructure",
+                    "when": "view == snowplowAssets && viewItem == dataStructure",
+                    "group": "2_specific@1"
+                },
+                {
+                    "command": "snowplow.validateWithProgress",
+                    "when": "view == snowplowAssets && (viewItem == dataProduct || viewItem == dataStructure)",
+                    "group": "1_actions@4"
+                },
+                {
+                    "command": "snowplow.publishDataStructureToProd",
+                    "when": "view == snowplowAssets && viewItem == dataStructure",
+                    "group": "2_specific@2"
+                },
+                {
+                    "command": "snowplow.validateSourceApp",
+                    "when": "view == snowplowAssets && viewItem == sourceApplication",
+                    "group": "1_actions@1"
+                },
+                {
+                    "command": "snowplow.publishSourceApp",
+                    "when": "view == snowplowAssets && viewItem == sourceApplication",
+                    "group": "1_actions@2"
+                },
+                {
+                    "command": "snowplow.validateAllDataStructures",
+                    "when": "view == snowplowAssets && viewItem == dataStructureVendor",
+                    "group": "1_vendor@1"
+                },
+                {
+                    "command": "snowplow.openContainingFolder",
+                    "when": "view == snowplowAssets && viewItem == dataStructureVendor",
+                    "group": "2_vendor@1"
+                },
+                {
+                    "command": "snowplow.publishAllDataProducts",
+                    "when": "view == snowplowAssets && viewItem == dataProductsRoot",
+                    "group": "1_bulk@1"
+                },
+                {
+                    "command": "snowplow.validateAllDataProducts",
+                    "when": "view == snowplowAssets && viewItem == dataProductsRoot",
+                    "group": "1_bulk@2"
+                },
+                {
+                    "command": "snowplow.downloadAllDataProducts",
+                    "when": "view == snowplowAssets && viewItem == dataProductsRoot",
+                    "group": "1_bulk@3"
+                },
+                {
+                    "command": "snowplow.publishAllDataStructuresToDev",
+                    "when": "view == snowplowAssets && viewItem == dataStructuresRoot",
+                    "group": "1_bulk@1"
+                },
+                {
+                    "command": "snowplow.publishAllDataStructuresToProd",
+                    "when": "view == snowplowAssets && viewItem == dataStructuresRoot",
+                    "group": "1_bulk@2"
+                },
+                {
+                    "command": "snowplow.validateAllDataStructures",
+                    "when": "view == snowplowAssets && viewItem == dataStructuresRoot",
+                    "group": "1_bulk@3"
+                },
+                {
+                    "command": "snowplow.downloadAllDataStructures",
+                    "when": "view == snowplowAssets && viewItem == dataStructuresRoot",
+                    "group": "1_bulk@4"
+                },
+                {
+                    "command": "snowplow.publishAllSourceApps",
+                    "when": "view == snowplowAssets && viewItem == sourceAppsRoot",
+                    "group": "1_bulk@1"
+                },
+                {
+                    "command": "snowplow.validateAllSourceApps",
+                    "when": "view == snowplowAssets && viewItem == sourceAppsRoot",
+                    "group": "1_bulk@2"
+                },
+                {
+                    "command": "snowplow.downloadAllSourceApps",
+                    "when": "view == snowplowAssets && viewItem == sourceAppsRoot",
+                    "group": "1_bulk@3"
+                },
+                {
+                    "command": "snowplow.openContainingFolder",
+                    "when": "view == snowplowAssets && (viewItem == dataProduct || viewItem == dataStructure || viewItem == sourceApplication)",
+                    "group": "3_file@1"
+                },
+                {
+                    "command": "snowplow.copyFilePath",
+                    "when": "view == snowplowAssets && (viewItem == dataProduct || viewItem == dataStructure || viewItem == sourceApplication)",
+                    "group": "3_file@2"
+                },
+                {
+                    "command": "snowplow.navigateToProperty",
+                    "when": "view == snowplowSchemaVisualization && viewItem == schemaProperty",
+                    "group": "1_navigation@1"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "snowplow.analyzeSchema",
+                    "when": "resourcePath =~ /.*\\/data-(structures|products)\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@1"
+                },
+                {
+                    "command": "snowplow.convertFormat",
+                    "when": "resourcePath =~ /.*\\/data-(structures|products)\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@2"
+                },
+                {
+                    "command": "snowplow.generateTestData",
+                    "when": "resourcePath =~ /.*\\/data-structures\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@3"
+                },
+                {
+                    "command": "snowplow.editDataStructure",
+                    "when": "resourcePath =~ /.*\\/data-structures\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@4"
+                },
+                {
+                    "command": "snowplow.validateFile",
+                    "when": "resourcePath =~ /.*\\/data-(structures|products)\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@5"
+                },
+                {
+                    "command": "snowplow.editDataProduct",
+                    "when": "resourcePath =~ /.*\\/data-products\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@4"
+                }
+            ],
+            "editor/context": [
+                {
+                    "command": "snowplow.analyzeSchema",
+                    "when": "resourcePath =~ /.*\\/data-(structures|products)\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@1"
+                },
+                {
+                    "command": "snowplow.convertFormat",
+                    "when": "resourcePath =~ /.*\\/data-(structures|products)\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@2"
+                },
+                {
+                    "command": "snowplow.visualizeCurrentSchema",
+                    "when": "resourcePath =~ /.*\\/data-(structures|products)\\/.*\\.(json|yaml|yml)$/",
+                    "group": "snowplow@3"
+                }
+            ]
+        },
+        "configuration": {
+            "title": "Snowplow",
+            "properties": {
+                "snowplow.snowplowCliPath": {
+                    "type": "string",
+                    "default": "snowplow-cli",
+                    "description": "The path to the snowplow-cli executable."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "pretest": "npm run compile && npm run lint",
+        "lint": "eslint src --ext ts",
+        "test": "node ./out/test/runTest.js"
+    },
+    "devDependencies": {
+        "@types/glob": "^8.1.0",
+        "@types/js-yaml": "^4.0.9",
+        "@types/minimatch": "^5.1.2",
+        "@types/mocha": "^10.0.6",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.89.0",
+        "@typescript-eslint/eslint-plugin": "^7.7.1",
+        "@typescript-eslint/parser": "^7.7.1",
+        "@vscode/test-electron": "^2.3.9",
+        "eslint": "^8.57.0",
+        "glob": "^10.3.10",
+        "mocha": "^10.4.0",
+        "typescript": "^5.4.5"
+    },
+    "dependencies": {
+        "js-yaml": "^4.1.0",
+        "minimatch": "^3.0.4",
+        "vscode-languageclient": "^8.0.0",
+        "vscode-languageserver": "^8.0.0",
+        "vscode-languageserver-textdocument": "^1.0.0",
+        "vscode-uri": "^3.0.0"
+    }
+}
